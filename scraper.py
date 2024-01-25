@@ -25,13 +25,24 @@ def parse_html(html):
         return err
 
 
-def extract_data(soup, selectors, title_selector):
+def get_data(soup, selector):
     scraped_data = []
+    try:
+        if soup:
+            selector_elements = [soup.find_all(selector)]
+            for elements in selector_elements:
+                for tags in elements:
+                    print(f"Tags:{tags}")
+                    scraped_data.append(tags.get_text())
+            return scraped_data
+        else:
+            return False
+    except Exception as err:
+        return err
 
-    for selector_name, selector in selectors.items():
-        elements = soup.select(selector)
-        data = [element.text for element in elements]
-        title_element = soup.select_one(title_selector)
-        scraped_data.append({"title": title_element.text, selector_name: data})
 
-    return scraped_data
+def web_scraper(url, selector):
+    html = get_html(url)
+    soup = parse_html(html)
+
+    return get_data(soup, selector)
