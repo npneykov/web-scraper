@@ -28,6 +28,16 @@ class TestMain(unittest.TestCase):
         test_selector = ""
         self.assertFalse(scraper.get_data(soup, test_selector))
 
+    def test_write_data_to_file(self):
+        file_name = "test.txt"
+        data = ["test"]
+        self.assertTrue(scraper.write_data_to_file(file_name, data))
+
+    def test_write_data_to_file_exception(self):
+        file_name = "test"
+        data = [1, 2, 3]
+        self.assertRaises(Exception, scraper.write_data_to_file(file_name, data))
+
 
 if __name__ == "__main__":
     unittest.main()

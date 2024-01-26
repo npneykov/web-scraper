@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_html(url: str) -> any:
+def get_html(url: str):
     url_pattern = "^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$"
 
     try:
@@ -16,14 +16,14 @@ def get_html(url: str) -> any:
         return err
 
 
-def parse_html(html: str) -> any:
+def parse_html(html: str):
     try:
         return BeautifulSoup(html, "html.parser") if html else False
     except Exception as err:
         return err
 
 
-def get_data(soup: BeautifulSoup, selector: str) -> any:
+def get_data(soup: BeautifulSoup, selector: str):
     scraped_data = []
     try:
         if isinstance(soup, BeautifulSoup):
@@ -37,10 +37,24 @@ def get_data(soup: BeautifulSoup, selector: str) -> any:
         return err
 
 
-def web_scraper(url: str, selector: str) -> any:
+def web_scraper(url: str, selector: str):
     try:
         html = get_html(url)
         soup = parse_html(html)
         return get_data(soup, selector)
+    except Exception as err:
+        return err
+
+
+def write_data_to_file(file_name: str, data: list):
+    file_pattern = "^[^.]+.(txt)$"
+
+    try:
+        if re.match(file_pattern, file_name):
+            with open(file_name, "w") as file:
+                for item in data:
+                    file.write(f"{item}\n")
+            return f"Done writing in file: {file_name}"
+        return f"Invalid file name: {file_name}. Please provide a valid one."
     except Exception as err:
         return err
