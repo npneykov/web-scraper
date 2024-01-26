@@ -1,5 +1,7 @@
 import unittest
 
+import bs4
+
 import scraper
 
 
@@ -15,6 +17,16 @@ class TestMain(unittest.TestCase):
 
     def test_parse_html_invalid_html(self):
         self.assertFalse(scraper.parse_html(""))
+
+    def test_get_data_invalid_soup(self):
+        soup = "Invalid soup"
+        test_selector = "span"
+        self.assertFalse(scraper.get_data(soup, test_selector))
+
+    def test_get_data_invalid_selector(self):
+        soup = bs4.BeautifulSoup()
+        test_selector = ""
+        self.assertFalse(scraper.get_data(soup, test_selector))
 
 
 if __name__ == "__main__":

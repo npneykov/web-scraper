@@ -4,36 +4,32 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_html(url):
+def get_html(url: str) -> any:
     url_pattern = "^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$"
 
     try:
         if re.compile(url_pattern).search(url):
             response = requests.get(url)
-            return response.text
+            return response.text if response.status_code == 200 else False
         return False
     except Exception as err:
         return err
 
 
-def parse_html(html):
+def parse_html(html: str) -> any:
     try:
-        if html:
-            return BeautifulSoup(html, "html.parser")
-        return False
+        return BeautifulSoup(html, "html.parser") if html else False
     except Exception as err:
         return err
 
 
-def get_data(soup, selector):
+def get_data(soup: BeautifulSoup, selector: str) -> any:
     scraped_data = []
     try:
-        if soup:
+        if isinstance(soup, BeautifulSoup):
             selector_elements = [soup.find_all(selector)]
             for elements in selector_elements:
-                for tags in elements:
-                    print(f"Tags:{tags}")
-                    scraped_data.append(tags.get_text())
+                [scraped_data.append(tags.get_text()) for tags in elements]
             return scraped_data
         else:
             return False
@@ -41,8 +37,10 @@ def get_data(soup, selector):
         return err
 
 
-def web_scraper(url, selector):
-    html = get_html(url)
-    soup = parse_html(html)
-
-    return get_data(soup, selector)
+def web_scraper(url: str, selector: str) -> any:
+    try:
+        html = get_html(url)
+        soup = parse_html(html)
+        return get_data(soup, selector)
+    except Exception as err:
+        return err
