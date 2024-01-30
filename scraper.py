@@ -23,13 +23,17 @@ def parse_html(html: str):
         return err
 
 
-def get_data(soup: BeautifulSoup, selector: str):
-    scraped_data = []
+def get_data(soup: BeautifulSoup, selectors: list):
+    scraped_data = {}
     try:
-        if isinstance(soup, BeautifulSoup):
-            selector_elements = [soup.find_all(selector)]
-            for elements in selector_elements:
-                [scraped_data.append(tags.get_text()) for tags in elements]
+        if isinstance(soup, BeautifulSoup) and isinstance(selectors, list):
+            for selector in selectors:
+                elements = soup.select(selector)
+                if elements:
+                    for subelement in elements:
+                        scraped_data[subelement.name] = (
+                            subelement.get_text().replace("\n", " ").strip()
+                        )
             return scraped_data
         else:
             return False
