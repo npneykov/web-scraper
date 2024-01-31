@@ -2,7 +2,7 @@ import unittest
 
 import bs4
 
-from src.scraper import get_data, get_html, parse_html, write_data_to_file
+from src.scraper import get_data, get_html, parse_html, web_scraper, write_data_to_file
 
 
 class TestMain(unittest.TestCase):
