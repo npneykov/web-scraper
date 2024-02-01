@@ -6,55 +6,63 @@ from bs4 import BeautifulSoup
 
 def get_html(url: str):
     """
-    Function to retrieve the HTML content from a given URL.
+    A function to retrieve the HTML content of a given URL.
 
-    Args:
-        url (str): The URL from which to retrieve the HTML content.
+    Parameters:
+        url (str): The URL of the web page to retrieve.
 
     Returns:
-        str or bool: The HTML content if the request is successful, False otherwise.
+        str: The HTML content of the web page, or an error message if the URL pattern does not match or an exception occurs.
     """
     url_pattern = "^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$"
 
     try:
         if re.compile(url_pattern).search(url):
             response = requests.get(url)
-            return response.text if response.status_code == 200 else False
-        return False
+            return (
+                response.text
+                if response.status_code == 200
+                else f"Got status code {response.status_code}: {response.reason}"
+            )
+        else:
+            return f"The URL pattern does not match: {url}"
     except Exception as err:
         return err
 
 
 def parse_html(html: str):
     """
-    Parse the given HTML string using BeautifulSoup and return the parsed result.
+    Parse the given HTML string and return a BeautifulSoup object if the string contains '<html>',
+    otherwise return a string indicating invalid HTML.
 
     Args:
         html (str): The HTML string to be parsed.
 
     Returns:
-        BeautifulSoup: The parsed result if successful, False if the HTML string is empty,
-        or the exception if an error occurs during parsing.
+        BeautifulSoup: The parsed result if successful, If an exception occurs during parsing, return the exception object.
     """
     try:
-        return BeautifulSoup(html, "html.parser") if html else False
+        return (
+            BeautifulSoup(html, "html.parser")
+            if "<html>" in html
+            else f"Invalid HTML:\n{html}"
+        )
     except Exception as err:
         return err
 
 
 def get_data(soup: BeautifulSoup, selectors: list):
     """
-    Function to extract data from a BeautifulSoup object using a list of selectors.
+    Function to scrape data from a BeautifulSoup object using a list of CSS selectors.
 
     Args:
-        soup (BeautifulSoup): The BeautifulSoup object containing the HTML to extract data from.
+        soup (BeautifulSoup): The BeautifulSoup object containing the parsed HTML.
         selectors (list): A list of CSS selectors to extract specific elements from the HTML.
 
     Returns:
-        dict: A dictionary containing the scraped data, where the keys are element names and
-        the values are the scraped text.
-        bool: False if the input parameters are not of the correct type.
-        Exception: If any exception occurs during the data extraction process.
+        dict: A dictionary containing the scraped data where the keys are the tag names and the values are the scraped text.
+        str: If either the soup or selectors are not of the correct type, a message indicating the incorrect types.
+        Exception: If any other exception occurs during the function execution.
     """
     scraped_data = {}
     try:
@@ -68,7 +76,9 @@ def get_data(soup: BeautifulSoup, selectors: list):
                         )
             return scraped_data
         else:
-            return False
+            return f"Both or one of the objects are not of the correct type:\nSoup: {type(soup)}\nSelectors: {type(selectors)}"
+    except TypeError as type_err:
+        return type_err
     except Exception as err:
         return err
 
