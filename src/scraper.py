@@ -73,7 +73,7 @@ def get_data(soup: BeautifulSoup, selectors: list):
         return err
 
 
-def web_scraper(url: str, selector: str):
+def web_scraper(url: str, selectors: list):
     """
     Function to scrape a website for data using the provided URL and CSS selector.
 
@@ -87,7 +87,7 @@ def web_scraper(url: str, selector: str):
     try:
         html = get_html(url)
         soup = parse_html(html)
-        return get_data(soup, selector)
+        return get_data(soup, selectors)
     except Exception as err:
         return err
 
