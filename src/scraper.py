@@ -1,3 +1,4 @@
+import json
 import re
 
 import requests
@@ -53,7 +54,7 @@ def parse_html(html: str):
 
 def get_data(soup: BeautifulSoup, selectors: list):
     """
-    Function to scrape data from a BeautifulSoup object using a list of CSS selectors.
+    Function to scrape data from a BeautifulSoup object using a dict of CSS selectors.
 
     Args:
         soup (BeautifulSoup): The BeautifulSoup object containing the parsed HTML.
@@ -76,7 +77,7 @@ def get_data(soup: BeautifulSoup, selectors: list):
                         )
             return scraped_data
         else:
-            return f"Both or one of the objects are not of the correct type:\nSoup: {type(soup)}\nSelectors: {type(selectors)}"
+            return f"Both or one of the objects are not of the correct type:\\nSoup: {type(soup)}\\nSelectors: {type(selectors)}"
     except TypeError as type_err:
         return type_err
     except Exception as err:
@@ -102,24 +103,23 @@ def web_scraper(url: str, selectors: list):
         return err
 
 
-def write_data_to_file(file_name: str, data: list):
+def write_data_to_file(file_name: str, data: dict):
     """
-    Writes data to a file.
+    Writes data to a JSON file.
 
     Args:
-        file_name (str): The name of the file to write data to.
-        data (list): The list of data to be written to the file.
+        file_name (str): The name of the JSON file to write data to.
+        data (dict): The dict of data to be written to the JSON file.
 
     Returns:
         str: A message indicating the status of the write operation.
     """
-    file_pattern = "^[^.]+.(txt)$"
+    file_pattern = "^[^.]+.(json)$"
 
     try:
         if re.match(file_pattern, file_name):
             with open(file_name, "w") as file:
-                for item in data:
-                    file.write(f"{item}\n")
+                json.dump(data, file, indent=4)
             return f"Done writing in file: {file_name}"
         return f"Invalid file name: {file_name}. Please provide a valid one."
     except Exception as err:
