@@ -26,9 +26,11 @@ def get_html(url: str):
                 else f"Got status code {response.status_code}: {response.reason}"
             )
         else:
-            return f"The URL pattern does not match: {url}"
+            raise ValueError(
+                f"Function get_html():The URL pattern does not match: {url}"
+            )
     except Exception as err:
-        return err
+        print(err.args)
 
 
 def parse_html(html: str):
@@ -49,7 +51,7 @@ def parse_html(html: str):
             else f"Invalid HTML:\n{html}"
         )
     except Exception as err:
-        return err
+        print(err.args)
 
 
 def get_data(soup: BeautifulSoup, selectors: list):
@@ -62,7 +64,7 @@ def get_data(soup: BeautifulSoup, selectors: list):
 
     Returns:
         dict: A dictionary containing the scraped data where the keys are the tag names and the values are the scraped text.
-        str: If either the soup or selectors are not of the correct type, a message indicating the incorrect types.
+        str: If either the soup or selectors are not of the correct type, raises a message indicating the incorrect types.
         Exception: If any other exception occurs during the function execution.
     """
     scraped_data = {}
@@ -77,14 +79,14 @@ def get_data(soup: BeautifulSoup, selectors: list):
                         )
             return scraped_data
         else:
-            return f"Both or one of the objects are not of the correct type:\\nSoup: {type(soup)}\\nSelectors: {type(selectors)}"
-    except TypeError as type_err:
-        return type_err
+            raise ValueError(
+                f"Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} Selectors: {type(selectors)}"
+            )
     except Exception as err:
-        return err
+        print(err.args)
 
 
-def web_scraper(url: str, selectors: list):
+def run_web_scraper(url: str, selectors: list):
     """
     Function to scrape a website for data using the provided URL and CSS selector.
 
@@ -100,7 +102,7 @@ def web_scraper(url: str, selectors: list):
         soup = parse_html(html)
         return get_data(soup, selectors)
     except Exception as err:
-        return err
+        print(err.args)
 
 
 def write_data_to_file(file_name: str, data: dict):
@@ -117,10 +119,10 @@ def write_data_to_file(file_name: str, data: dict):
     file_pattern = "^[^.]+.(json)$"
 
     try:
-        if re.match(file_pattern, file_name):
+        if re.match(file_pattern, file_name) and isinstance(data, dict):
             with open(file_name, "w") as file:
                 json.dump(data, file, indent=4)
             return f"Done writing in file: {file_name}"
-        return f"Invalid file name: {file_name}. Please provide a valid one."
+        return f"Function write_data_to_file(): Invalid file name: {file_name} or data type: {type(data)}"
     except Exception as err:
-        return err
+        print(err.args)
