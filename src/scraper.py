@@ -15,7 +15,7 @@ def get_html(url: str):
     Returns:
         str: The HTML content of the web page, or an error message if the URL pattern does not match or an exception occurs.
     """
-    url_pattern = "^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$"
+    url_pattern = '^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$'
 
     try:
         if re.compile(url_pattern).search(url):
@@ -23,11 +23,11 @@ def get_html(url: str):
             return (
                 response.text
                 if response.status_code == 200
-                else f"Got status code {response.status_code}: {response.reason}"
+                else f'Got status code {response.status_code}: {response.reason}'
             )
         else:
             raise ValueError(
-                f"Function get_html():The URL pattern does not match: {url}"
+                f'Function get_html():The URL pattern does not match: {url}'
             )
     except Exception as err:
         print(err.args)
@@ -46,9 +46,9 @@ def parse_html(html: str):
     """
     try:
         return (
-            BeautifulSoup(html, "html.parser")
-            if "<html>" in html
-            else f"Invalid HTML:\n{html}"
+            BeautifulSoup(html, 'html.parser')
+            if '<html>' in html
+            else f'Invalid HTML:\n{html}'
         )
     except Exception as err:
         print(err.args)
@@ -75,12 +75,12 @@ def get_data(soup: BeautifulSoup, selectors: list):
                 if elements:
                     for subelement in elements:
                         scraped_data[subelement.name] = (
-                            subelement.get_text().replace("\n", " ").strip()
+                            subelement.get_text().replace('\n', ' ').strip()
                         )
             return scraped_data
         else:
             raise ValueError(
-                f"Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} Selectors: {type(selectors)}"
+                f'Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} Selectors: {type(selectors)}'
             )
     except Exception as err:
         print(err.args)
@@ -116,13 +116,13 @@ def write_data_to_file(file_name: str, data: dict):
     Returns:
         str: A message indicating the status of the write operation.
     """
-    file_pattern = "^[^.]+.(json)$"
+    file_pattern = '^[^.]+.(json)$'
 
     try:
         if re.match(file_pattern, file_name) and isinstance(data, dict):
-            with open(file_name, "w") as file:
+            with open(file_name, 'w') as file:
                 json.dump(data, file, indent=4)
-            return f"Done writing in file: {file_name}"
-        return f"Function write_data_to_file(): Invalid file name: {file_name} or data type: {type(data)}"
+            return f'Done writing in file: {file_name}'
+        return f'Function write_data_to_file(): Invalid file name: {file_name} or data type: {type(data)}'
     except Exception as err:
         print(err.args)
