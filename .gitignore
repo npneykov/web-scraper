@@ -128,7 +128,7 @@ ENV/
 env.bak/
 venv.bak/
 
-#Pre-commit hooks configurations
+# Pre-commit hooks configurations
 .pre-commit-config.yaml
 
 # Spyder project settings
