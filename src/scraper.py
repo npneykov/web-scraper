@@ -120,8 +120,11 @@ def write_data_to_file(file_name: str, data: dict):
 
     try:
         if re.match(file_pattern, file_name) and isinstance(data, dict):
-            with open(file_name, 'w') as file:
+            file_path = f'src/{file_name}'
+
+            with open(file_path, 'w') as file:
                 json.dump(data, file, indent=4)
+
             return f'Done writing in file: {file_name}'
         return f'Function write_data_to_file(): Invalid file name: {file_name} or data type: {type(data)}'
     except Exception as err:

@@ -8,7 +8,7 @@ authors = [{ name = "Nikola Neykov", email = "nikola.neykov@gmail.com" }]
 description = "A web scraper written in Python"
 version = "0.0.1"
 requires-python = ">=3.8"
-dependencies = ["beautifulsoup4", "requests", "unittest"]
+dependencies = ["beautifulsoup4", "requests"]
 
 [project.urls]
 Repository = "https://github.com/npneykov/web-scraper"
