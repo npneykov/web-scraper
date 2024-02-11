@@ -27,7 +27,7 @@ def get_html(url: str):
             )
         else:
             raise ValueError(
-                f'Function get_html():The URL pattern does not match: {url}'
+                f'Function get_html():The URL pattern does not match: {url}',
             )
     except Exception as err:
         print(err.args)
@@ -80,7 +80,7 @@ def get_data(soup: BeautifulSoup, selectors: list):
             return scraped_data
         else:
             raise ValueError(
-                f'Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} Selectors: {type(selectors)}'
+                f'Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} Selectors: {type(selectors)}',
             )
     except Exception as err:
         print(err.args)
