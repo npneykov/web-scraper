@@ -1,7 +1,16 @@
 beautifulsoup4==4.12.3
 certifi==2024.2.2
+cfgv==3.4.0
 charset-normalizer==3.3.2
+distlib==0.3.8
+filelock==3.13.1
+identify==2.5.34
 idna==3.6
+nodeenv==1.8.0
+platformdirs==4.2.0
+pre-commit==3.6.1
+PyYAML==6.0.1
 requests==2.31.0
 soupsieve==2.5
 urllib3==2.2.0
+virtualenv==20.25.0
