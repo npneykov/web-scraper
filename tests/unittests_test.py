@@ -2,7 +2,7 @@ import unittest
 
 from bs4 import BeautifulSoup
 
-from src.scraper import (
+from src.web_scraper import (
     get_data,
     get_html,
     parse_html,
