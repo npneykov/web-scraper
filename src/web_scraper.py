@@ -30,14 +30,14 @@ class WebScraper:
                 )
             else:
                 raise ValueError(
-                    f'Method get_html():The URL pattern does not match: {self.url}',
+                    f'Method get_html():The URL pattern does not match. Passed URL: {self.url}',
                 )
         except Exception as err:
             print(err.args)
 
     def parse_html(self, html: str):
         """
-        Parse the given HTML string and return a BeautifulSoup object if the string contains '<html>',
+        A method for parsing the given HTML string and return a BeautifulSoup object if the string contains '<html>',
         otherwise return a string indicating invalid HTML.
 
         Args:
@@ -80,14 +80,14 @@ class WebScraper:
                 return scraped_data
             else:
                 raise ValueError(
-                    f'Function get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} , Selectors: {type(self.selectors)}',
+                    f'Method get_data(): Both or one of the objects are not of the correct type: Soup: {type(soup)} , Selectors: {type(self.selectors)}',
                 )
         except Exception as err:
             print(err.args)
 
     def scrape(self):
         """
-        Method to scrape a website for data using the provided URL and CSS selector.
+        Method for scraping a website for data using the provided URL and CSS selector.
 
         Returns:
             The scraped data if successful, otherwise an Exception object.
@@ -119,6 +119,6 @@ class WebScraper:
                     json.dump(data, file, indent=4)
 
                 return f'Done writing in file: {self.file_name}'
-            return f'Function write_data_to_json_file(): Invalid file name: {self.file_name} or data type: {type(data)}'
+            return f'Method write_data_to_json_file(): Invalid file name: {self.file_name} or data type: {type(data)}'
         except Exception as err:
             print(err.args)
