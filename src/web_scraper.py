@@ -113,7 +113,7 @@ class WebScraper:
 
         try:
             if re.match(file_pattern, self.file_name) and isinstance(data, dict):
-                file_path = f'src/{self.file_name}'
+                file_path = f'data/{self.file_name}'
 
                 with open(file_path, 'w') as file:
                     json.dump(data, file, indent=4)
