@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 
 from bs4 import BeautifulSoup
 
@@ -9,8 +9,9 @@ web_scraper = WebScraper(
 )
 
 
-class TestMain(unittest.TestCase):
+class TestMain(TestCase):
     def test_get_html_valid_url(self):
+        web_scraper.url = 'https://www.google.com'
         self.assertIsInstance(web_scraper.get_html(), str)
 
     def test_get_html_invalid_url(self):
@@ -62,7 +63,3 @@ class TestMain(unittest.TestCase):
         web_scraper.file_name = 'test'
         data = 'test'
         self.assertRaises(Exception, web_scraper.write_data_to_json_file(data))
-
-
-if __name__ == '__main__':
-    unittest.main()
