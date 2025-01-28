@@ -4,9 +4,7 @@ from bs4 import BeautifulSoup
 
 from src.web_scraper import WebScraper
 
-web_scraper = WebScraper(
-    'https://www.google.com', ['div', 'p', 'a'], 'scraped_data.json'
-)
+web_scraper = WebScraper('https://www.google.com', ['div', 'p', 'a'], 'test.json')
 
 
 class TestMain(TestCase):
