@@ -17,10 +17,8 @@ jobs:
   test:
     executor: python/default
     steps:
-      - attach_workspace:
-          at: .
       - run:
-          name: Run Tests using Pytest
+          name: Run tests using Pytest
           command: python -m pytest
       - store_test_results:
           path: test-results
