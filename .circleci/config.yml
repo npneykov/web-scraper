@@ -10,10 +10,6 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   test:
     executor: python/default
     steps:
