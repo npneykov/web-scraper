@@ -1,6 +1,8 @@
 version: 2.1
 orbs:
-  python: circleci/python@2.2.0
+  python: circleci/python@3.0.0
+  aws-cli: circleci/aws-cli@5.1.2
+  aws-s3: circleci/aws-s3@4.1.0
 jobs:
   build_and_test:
     executor: python/default
@@ -9,9 +11,24 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Run tests
+          name: Run tests with pytest
           command: python -m pytest
+  deploy_to_aws_s3:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - aws-cli/setup:
+          profile_name: aws-s3-superuser
+          role_arn: arn:aws:iam::400273789821:user/aws-s3-superuser
+      - aws-s3/copy:
+          auth:
+            - aws-cli/setup:
+              profile_name: aws-s3-superuser
+              role_arn: arn:aws:iam::400273789821:user/aws-s3-superuser
+          from: .
+          to: s3://aws-web-scraper
 workflows:
   build_test_deploy:
     jobs:
       - build_and_test
+      - deploy_to_aws_s3
