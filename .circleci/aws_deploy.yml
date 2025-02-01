@@ -9,9 +9,7 @@ jobs:
       - checkout
       - aws-cli/setup:
         profile_name: aws-s3-superuser
-      - run:
-        name: Sync files to S3
-        command: aws s3 sync . s3://aws-web-scraper
+      - run: aws s3 sync . s3://aws-web-scraper
 
 workflows:
   aws-deploy:
