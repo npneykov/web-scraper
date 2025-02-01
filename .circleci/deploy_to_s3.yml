@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  build-deploy:
+    - deploy:
+      filters:
+        branches:
+          only: main
+
+workflows:
+  deploy_to_aws_s3:
+    executor: aws-cli/default
+    steps:
+      - run:
+        name: Deploy to AWS S3
+        command: aws s3 sync . s3://web-scraper

@@ -1,10 +1,8 @@
 version: 2.1
 orbs:
   python: circleci/python@3.0.0
-  aws-cli: circleci/aws-cli@5.1.2
-  aws-s3: circleci/aws-s3@4.1.0
 jobs:
-  build_and_test:
+  build_test:
     executor: python/default
     steps:
       - checkout
@@ -13,7 +11,8 @@ jobs:
       - run:
           name: Run tests using Pytest
           command: pytest -vvv
+
 workflows:
-  build-test-deploy:
+  build-test:
     jobs:
-      - build_and_test
+      - build_test
