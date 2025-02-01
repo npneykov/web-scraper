@@ -6,9 +6,10 @@ jobs:
   aws-cli-install:
     executor: aws-cli/default
     steps:
+      - checkout
       - aws-cli/setup:
         profile_name: aws-s3-superuser
-      - run: aws s3 ls
+      - run: aws s3 sync . s3://web-scraper
 
 workflows:
   deploy_to_aws_s3:
