@@ -15,4 +15,8 @@ jobs:
 workflows:
   build-test:
     jobs:
-      - build_test
+      - build_test:
+          filters:
+            branches:
+              only:
+                - main
