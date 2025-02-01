@@ -13,7 +13,7 @@ jobs:
 workflows:
   deploy_to_aws_s3:
     jobs:
-      - deploy:
+      - aws-cli-install:
           filters:
             branches:
               only:
