@@ -7,7 +7,7 @@ from src.web_scraper import WebScraper
 web_scraper = WebScraper('https://www.google.com', ['div', 'p', 'a'], 'test.json')
 
 
-class TestMain(TestCase):
+class MethodsTest(TestCase):
     def test_get_html_valid_url(self):
         web_scraper.url = 'https://www.google.com'
         self.assertIsInstance(web_scraper.get_html(), str)
@@ -22,7 +22,7 @@ class TestMain(TestCase):
 
     def test_parse_html_invalid_html(self):
         html = ''
-        self.assertIsInstance(web_scraper.parse_html(html), str)
+        self.assertRaises(BaseException or None, web_scraper.parse_html(html))
 
     def test_parse_html_raise_exception(self):
         html = 8

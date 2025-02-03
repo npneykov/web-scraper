@@ -37,8 +37,8 @@ class WebScraper:
 
     def parse_html(self, html: str):
         """
-        A method for parsing the given HTML string and return a BeautifulSoup object if the string contains '<html>',
-        otherwise return a string indicating invalid HTML.
+        A method for parsing the given HTML string and return a BeautifulSoup object ,
+        otherwise return an error message.
 
         Args:
             html (str): The HTML string to be parsed.
@@ -47,11 +47,7 @@ class WebScraper:
             BeautifulSoup: The parsed result if successful, If an exception occurs during parsing, return the exception object.
         """
         try:
-            return (
-                BeautifulSoup(html, 'html.parser')
-                if '<html>' in html
-                else f'Invalid HTML:\n{html}'
-            )
+            return BeautifulSoup(markup=html, features='html.parser') if html else None
         except Exception as err:
             print(err.args)
 
